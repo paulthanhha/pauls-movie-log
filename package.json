@@ -1,0 +1,10 @@
+{
+  "name": "pauls-movie-log",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/build-pages.cjs",
+    "test": "node tests.cjs && node pages-tests.cjs"
+  },
+  "engines": { "node": ">=22" }
+}
