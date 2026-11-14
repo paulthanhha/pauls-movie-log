@@ -140,3 +140,6 @@ body:not(.owner-mode) [data-owner],body:not(.owner-mode) #addCard,body:not(.owne
 #bulkImportDialog{max-width:800px}#bulkImportPreview{overflow:auto;max-height:330px;margin:20px 0}#bulkImportPreview table{width:100%;border-collapse:collapse;font-size:14px;text-align:left}#bulkImportPreview th,#bulkImportPreview td{padding:12px 10px;border-bottom:1px solid #eceff1;line-height:1.4}#bulkImportPreview th{color:#7e8790;font-weight:500;position:sticky;top:0;background:#fff}#bulkImportPreview td:first-child{font-weight:600}#bulkImportPreview .import-existing{color:#b57406}.bulk-status{font-size:14px;line-height:1.6;margin-top:18px;color:#53616d}.bulk-status.error{color:#df4444}.bulk-preview-note{font-size:12px;color:#929ba5}
 header #bulkImportBtn{font-size:13px;padding:10px 13px}
 @media(max-width:700px){body.owner-mode header{flex-wrap:wrap;height:auto;min-height:74px;padding-top:12px;padding-bottom:12px;gap:10px}header #bulkImportBtn{font-size:12px}#bulkImportPreview th,#bulkImportPreview td{font-size:12px;padding:10px 7px}}
+
+/* Keep native file inputs and explicitly hidden controls out of the layout. */
+[hidden]{display:none!important}
