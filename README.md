@@ -95,3 +95,9 @@ CSV dùng tên cột theo mẫu; tối thiểu `title`. `genres`, `cast` ngăn c
 JSON nhận array phim hoặc object `{ "films": [...] }`. Markdown giữ đúng schema hiện có. Tối đa 1.000 phim, mỗi file 4 MB và tổng 20 MB một lần nhập. Lỗi được hiển thị trước khi ghi; ID trùng trong cùng đợt nhập bị từ chối. Có xem trước, mặc định bỏ qua phim đã có; tick Thay thế để cập nhật theo ID.
 
 Import lưu cục bộ trước; bấm **Đồng bộ** để lưu Markdown và poster vào GitHub. Tất cả phim trong mỗi lần đồng bộ được ghi trong một commit, tránh chạy workflow hàng trăm lần khi import lớn. Nếu branch hoặc file đã thay đổi từ nơi khác, thao tác ghi bị từ chối để đọc lại dữ liệu trước.
+
+## Thêm, sửa và xóa phim
+
+Form dùng ba tab: Thông tin phim → Lần xem & điểm → Nhận xét. Chỉ tên phim bắt buộc; có thể Lưu phim từ bất kỳ tab nào. Đoàn phim và lịch sử xem lại là các phần mở rộng. Chấm bằng nút 1–5, có thể bỏ điểm từng tiêu chí. Nhận xét trống sẽ không hiện.
+
+Sau khi xác thực chủ sở hữu, mở một phim và bấm **Xóa phim** trên thanh công cụ, hoặc mở Chỉnh sửa rồi bấm **Xóa phim** ở chân form. Có xác nhận trước khi xóa. Khi đang kết nối, file Markdown tương ứng được xóa khỏi GitHub; app chỉ xóa bản cục bộ sau khi GitHub chấp nhận. Xung đột SHA sẽ dừng thao tác để đọc lại dữ liệu trước. Xóa entry không xóa poster dùng chung; file Markdown cũ vẫn có thể lấy lại qua lịch sử Git.
