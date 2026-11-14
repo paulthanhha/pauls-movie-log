@@ -15,7 +15,7 @@ if(!persist([example]))throw Error('Persistence failed');
 if(JSON.parse(localStorage.getItem(KEY))[0].title!==example.title)throw Error('Stored data mismatch');
 globalThis.testZip=zip([['content/films/test-film.md',bytes(md)],['assets/posters/test-film.webp',new Uint8Array([1,2,3])]]);
 `,c);
-(async()=>{fs.writeFileSync('/workspace/scratch/e7615589a4b9/afterglow-test.zip',Buffer.from(await c.testZip.arrayBuffer()));console.log('PASS: Markdown roundtrip, scores, null/zero, safe URLs, escaping, paths, persistence, ZIP')})();
+(async()=>{const buffer=Buffer.from(await c.testZip.arrayBuffer());if(buffer.readUInt32LE(0)!==0x04034b50||buffer.readUInt32LE(buffer.length-22)!==0x06054b50)throw Error('Invalid ZIP headers');console.log('PASS: Markdown roundtrip, scores, null/zero, safe URLs, escaping, paths, persistence, ZIP')})();
 (async()=>{
  const calls=[];
  c.fetch=async(url,opts)=>{calls.push({url,opts});return{ok:true,status:200,json:async()=>({sha:'old-sha',content:Buffer.from('hello').toString('base64')})}};
