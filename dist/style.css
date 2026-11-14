@@ -154,3 +154,8 @@ header #bulkImportBtn{font-size:13px;padding:10px 13px}
 #editor .editor-actions{padding:16px 30px;background:#fff;gap:10px;flex-shrink:0}#editor .editor-actions button{font-size:14px}#editor .editor-action-spacer{flex:1}#editor #deleteEditorBtn{font-weight:400;color:#df4444}.detail-delete,.detail-delete span{color:#b98181}.detail-delete:hover,.detail-delete:hover span{color:#ef4444}
 #editor button:focus-visible{outline:2px solid #9acfff;outline-offset:3px}
 @media(max-width:700px){#editor{width:calc(100% - 24px)}#editor .dialog-head{padding:20px 20px 15px}#editor .editor-tabs{padding:0 20px;gap:22px}#editor .editor-tabs button{font-size:13px;padding:13px 0}#editor .form-content{padding:20px;height:min(480px,calc(100dvh - 240px))}#editor .editor-facts{gap:12px}#editor .editor-actions{padding:14px 20px;gap:8px}#editor .editor-actions button{font-size:12px;padding:9px 11px}#editor .editor-watch-row{grid-template-columns:1fr;gap:4px;margin-bottom:14px}#editor #editorWatchDetails{padding-top:0}#editor .editor-rating-row{gap:10px}#editor .editor-score-buttons{gap:4px}#editor .editor-score-buttons button{width:30px;height:32px}#editor .editor-rating-heading label{font-size:13px}#editor .editor-overall{font-size:13px}#editor .editor-score-buttons .clear-score{width:20px}#editor #deleteEditorBtn{padding-left:0;padding-right:0}}
+/* Reset the old two-column editor layout before applying grouped panels. */
+#editor .form-content{display:block}
+#editor .form-content>section[data-editor-panel]{padding:0;border:0;grid-column:auto;grid-row:auto}
+#editor .form-content>section[data-editor-panel]>.fields.editor-basics{display:grid;grid-template-columns:1fr;gap:17px 20px}
+#editor .form-content details.editor-credits>summary{font-size:13px;padding:12px 0}
