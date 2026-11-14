@@ -28,8 +28,16 @@ function seedRankDemos(force=false){if(storageError&&!force)return 0;try{if(!for
 
 const PUBLISHED_STATE_KEY='pauls-movie-log.published.v1';
 function mergePublished(local,previous,incoming){const before=new Map(previous.map(f=>[f.id,f])),next=new Map(incoming.map(f=>[f.id,f])),localIds=new Set(local.map(f=>f.id));const merged=[];for(const film of local){const old=before.get(film.id);if(old&&JSON.stringify(film)===JSON.stringify(old)){if(next.has(film.id))merged.push(next.get(film.id))}else merged.push(film)}for(const film of incoming)if(!localIds.has(film.id)&&!before.has(film.id))merged.push(film);return merged}
-let films,storageError=false;const published=window.MOVIE_LOG_BOOTSTRAP?.films;
-try{const raw=localStorage.getItem(KEY);films=raw?JSON.parse(raw).map(normalize):(published?published:DEMOS).map(normalize);if(published){const incoming=published.map(normalize),previous=JSON.parse(localStorage.getItem(PUBLISHED_STATE_KEY)||'[]').map(normalize);if(raw)films=mergePublished(films,previous,incoming);localStorage.setItem(PUBLISHED_STATE_KEY,JSON.stringify(incoming));localStorage.setItem(KEY,JSON.stringify(films))}}catch{films=structuredClone(published||DEMOS).map(normalize);storageError=true}
+function loadFilmState(storage,publishedFilms){
+ const fallback=()=>structuredClone(publishedFilms||DEMOS).map(normalize);
+ let local;try{const raw=storage.getItem(KEY);local=raw?JSON.parse(raw).map(normalize):null}catch{return{films:fallback(),storageError:true}}
+ if(!publishedFilms)return{films:local||fallback(),storageError:false};
+ let incoming,previous;try{incoming=publishedFilms.map(normalize);previous=JSON.parse(storage.getItem(PUBLISHED_STATE_KEY)||'[]').map(normalize)}catch{return{films:local||fallback(),storageError:true}}
+ const next=local?mergePublished(local,previous,incoming):incoming;
+ try{storage.setItem(KEY,JSON.stringify(next));storage.setItem(PUBLISHED_STATE_KEY,JSON.stringify(incoming));return{films:next,storageError:false}}catch{return{films:next,storageError:true}}
+}
+const published=window.MOVIE_LOG_BOOTSTRAP?.films;
+let {films,storageError}=loadFilmState(localStorage,published);
 let prefs={repo:'',branch:'main',folder:'content/films'};try{Object.assign(prefs,JSON.parse(localStorage.getItem(SETTINGS)||'{}'))}catch{}
 let token='',connected=false,remoteShas=new Map(),assetCache=new Map(),editingId=null,activeId=null,search='',genre='',sort='watched',unratedOnly=false,extraWatches=[],busy=false;
 function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}

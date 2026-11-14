@@ -73,3 +73,9 @@ Mở trực tiếp các file `.md` bằng trình soạn thảo bất kỳ. Poste
 Có thể chuyển cả repo/ZIP sang hosting tĩnh khác mà không cần ứng dụng hiện tại.
 
 Các ghi chú triển khai cũ được lưu tại `docs/IMPLEMENTATION.md`.
+
+## Khi gặp lỗi
+
+Nếu test/build xanh nhưng deploy báo `Get Pages site failed`, bật **Settings → Pages → Source → GitHub Actions**, rồi chạy lại job deploy. Bước build vẫn tạo artifact ngay cả khi Pages chưa bật.
+
+Khi trình duyệt hết dung lượng hoặc bản ghi trạng thái publish bị lỗi, app giữ danh sách phim và các chỉnh sửa đang mở, báo chưa lưu được, và không thay bằng dữ liệu mẫu. Xuất Markdown trước khi dọn bộ nhớ trình duyệt.
