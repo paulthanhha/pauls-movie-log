@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "node scripts/build-pages.cjs",
+    "build": "node scripts/build-pages.cjs && node scripts/check-build.cjs",
     "test": "node tests.cjs && node pages-tests.cjs && node import-tests.cjs"
   },
   "engines": { "node": ">=22" }

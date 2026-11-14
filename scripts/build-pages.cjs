@@ -1,4 +1,4 @@
-const fs=require('node:fs'),path=require('node:path');
+const fs=require('node:fs'),path=require('node:path'),{createHash}=require('node:crypto');
 const root=path.resolve(__dirname,'..'),out=path.join(root,'_site');
 const {parseMd}=require('./model.cjs')();
 function localAsset(src){return typeof src==='string'&&/^\/?assets\//.test(src)}
@@ -14,5 +14,10 @@ for(const file of fs.readdirSync(content).filter(n=>n.endsWith('.md')).sort()){
 fs.cpSync(path.join(root,'content'),path.join(out,'content'),{recursive:true});
 const data=JSON.stringify({schemaVersion:1,films}).replace(/</g,'\\u003c').replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029');
 fs.writeFileSync(path.join(out,'data.js'),'window.MOVIE_LOG_BOOTSTRAP='+data+';\n');
+// Fingerprint script and stylesheet URLs so a new HTML never reuses old UI code.
+const fingerprint=file=>createHash('sha256').update(fs.readFileSync(path.join(out,file))).digest('hex').slice(0,12);
+const htmlPath=path.join(out,'index.html');
+const html=fs.readFileSync(htmlPath,'utf8').replace(/(src|href)="(\.\/(?:style\.css|app\.js|import\.js|share\.js|data\.js))"/g,(_,attr,url)=>`${attr}="${url}?v=${fingerprint(url.slice(2))}"`);
+fs.writeFileSync(htmlPath,html);
 fs.writeFileSync(path.join(out,'.nojekyll'),'');
 console.log('Built GitHub Pages: '+films.length+' Markdown films → _site/');
