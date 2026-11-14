@@ -79,3 +79,19 @@ Các ghi chú triển khai cũ được lưu tại `docs/IMPLEMENTATION.md`.
 Nếu test/build xanh nhưng deploy báo `Get Pages site failed`, bật **Settings → Pages → Source → GitHub Actions**, rồi chạy lại job deploy. Bước build vẫn tạo artifact ngay cả khi Pages chưa bật.
 
 Khi trình duyệt hết dung lượng hoặc bản ghi trạng thái publish bị lỗi, app giữ danh sách phim và các chỉnh sửa đang mở, báo chưa lưu được, và không thay bằng dữ liệu mẫu. Xuất Markdown trước khi dọn bộ nhớ trình duyệt.
+
+## Chỉ chủ sở hữu được quản lý
+
+Khách mặc định chỉ xem, không có nút thêm/sửa/xóa/import hoặc đổi nhân vật. Vào Quản lý và xác thực bằng fine-grained token của tài khoản `paulthanhha` để mở chức năng quản lý. Repository được kiểm tra thuộc tài khoản này và tài khoản có quyền ghi. Token cần Contents: Read and write; chỉ giữ trong bộ nhớ tab, không lưu lâu dài. Bấm Ngắt kết nối hoặc tải lại trang để khóa lại.
+
+Chế độ chỉ xem là giao diện cho khách; quyền ghi dữ liệu chung được GitHub thực thi qua token và quyền repo. Việc sửa JavaScript/localStorage ở máy của khách không cấp quyền sửa repo. Trang và nội dung đã publish vẫn công khai.
+
+## Import nhiều phim
+
+Sau khi xác thực, bấm **↑ Import** ở header hoặc **Import nhiều phim** trong Cài đặt. Chọn nhiều `.md`, một hoặc nhiều `.csv`/`.json`. Có thể tải CSV mẫu ngay trong hộp import để điền từ Excel/Google Sheets.
+
+CSV dùng tên cột theo mẫu; tối thiểu `title`. `genres`, `cast` ngăn cách bằng `|`; `watchedOn` dùng YYYY-MM-DD. Cột `rating` điền chung cho bốn tiêu chí, hoặc điền riêng `story`, `visuals`, `performances`, `impact`. Điểm nguyên 1–5, có thể để trống. `review` không bắt buộc. Nếu không điền `id`, app tạo từ tên và năm để nhận diện khi nhập lại.
+
+JSON nhận array phim hoặc object `{ "films": [...] }`. Markdown giữ đúng schema hiện có. Tối đa 1.000 phim, mỗi file 4 MB và tổng 20 MB một lần nhập. Lỗi được hiển thị trước khi ghi; ID trùng trong cùng đợt nhập bị từ chối. Có xem trước, mặc định bỏ qua phim đã có; tick Thay thế để cập nhật theo ID.
+
+Import lưu cục bộ trước; bấm **Đồng bộ** để lưu Markdown và poster vào GitHub. Tất cả phim trong mỗi lần đồng bộ được ghi trong một commit, tránh chạy workflow hàng trăm lần khi import lớn. Nếu branch hoặc file đã thay đổi từ nơi khác, thao tác ghi bị từ chối để đọc lại dữ liệu trước.

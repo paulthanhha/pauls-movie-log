@@ -19,7 +19,7 @@ globalThis.testZip=zip([['content/films/test-film.md',bytes(md)],['assets/poster
 (async()=>{
  const calls=[];
  c.fetch=async(url,opts)=>{calls.push({url,opts});return{ok:true,status:200,json:async()=>({sha:'old-sha',content:Buffer.from('hello').toString('base64')})}};
- await vm.runInContext(`(async()=>{prefs={repo:'owner/repo',branch:'main',folder:'content/films'};token='test-only';await gh('contents/content/films/test.md');let detected=false;try{await putFile('content/films/test.md',bytes('data'),'test','different-sha')}catch(e){detected=e.message.includes('thay đổi')}if(!detected)throw Error('Missing conflict protection');})()`,c);
+ await vm.runInContext(`(async()=>{prefs={repo:'owner/repo',branch:'main',folder:'content/films'};token='test-only';ownerAuthorized=true;await gh('contents/content/films/test.md');let detected=false;try{await putFile('content/films/test.md',bytes('data'),'test','different-sha')}catch(e){detected=e.message.includes('thay đổi')}if(!detected)throw Error('Missing conflict protection');})()`,c);
  if(calls[0].opts.headers.Authorization!=='Bearer test-only')throw Error('Auth missing');
  if([...storage.values()].some(v=>v.includes('test-only')))throw Error('Token persisted');
  console.log('PASS: GitHub request authentication, conflict detection, token not persisted');
